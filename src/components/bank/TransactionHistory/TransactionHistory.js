@@ -4,8 +4,9 @@ import PropTypes from "prop-types";
 
 const TransactionHistory = ({ history = [] }) => {
   return (
+    <div >
     <table className={style.history}>
-      <thead>
+      <thead >
         <tr>
           <th>Transaction</th>
           <th>Amount</th>
@@ -16,12 +17,13 @@ const TransactionHistory = ({ history = [] }) => {
         {history.map(item => (
           <tr key={item.id}>
             <td>{item.type}</td>
-            <td>{item.amount}</td>
+            <td>{item.amount}$</td>
             <td>{item.date}</td>
           </tr>
         ))}
       </tbody>
     </table>
+    </div>
   );
 };
 export default TransactionHistory;
