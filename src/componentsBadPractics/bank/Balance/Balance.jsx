@@ -1,14 +1,8 @@
 import React from "react";
 import propTypes from "prop-types";
-import style from "./Balance.module.css";
+import style from "../style.module.css";
 
-const Balance = ({ balance, history }) => {
-  const deposit = history
-    .filter(el => el.type === "Deposit")
-    .reduce((acc, el) => acc + Number(el.amount), 0);
-  const withdraw = history
-    .filter(el => el.type === "Withdraw")
-    .reduce((acc, el) => acc + Number(el.amount), 0);
+const Balance = ({ balance, deposit, withdraw }) => {
   return (
     <section className={style.balance}>
       <span className={style.deposite}>⬆ {deposit}$</span>
@@ -22,5 +16,6 @@ export default Balance;
 
 Balance.propTypes = {
   balance: propTypes.number,
+  deposit: propTypes.number,
   withdraw: propTypes.number
 };
