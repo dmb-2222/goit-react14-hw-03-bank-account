@@ -9,7 +9,7 @@ class Controls extends React.Component {
     this.setState({ value: +e.target.value });
   };
   hadleDeposit = ({ target: { name } }) => {
-    this.props[name](this.state.value);
+    this.props[name](this.state.value, name);
     this.resetForm()
   };
   resetForm = () => {

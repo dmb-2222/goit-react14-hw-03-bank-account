@@ -4,10 +4,10 @@ import style from "./Balance.module.css";
 
 const Balance = ({ balance, history }) => {
   const deposit = history
-    .filter(el => el.type === "Deposit")
+    .filter(el => el.type === "deposit")
     .reduce((acc, el) => acc + Number(el.amount), 0);
   const withdraw = history
-    .filter(el => el.type === "Withdraw")
+    .filter(el => el.type === "withdraw")
     .reduce((acc, el) => acc + Number(el.amount), 0);
   return (
     <section className={style.balance}>

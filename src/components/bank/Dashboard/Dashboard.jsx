@@ -23,21 +23,21 @@ class Dashboard extends React.Component {
   unCorrectInput = () =>
     toast("Введите сумму для проведения операции!", { autoClose: 5000 });
 
-    componentDidMount() {
-      if (prevTransactions) {
-        this.setState({
-          history: prevTransactions.history,
-          balance: prevTransactions.balance,
-          deposit: prevTransactions.deposit,
-          withdraw: prevTransactions.withdraw
-        });
-      }
+  componentDidMount() {
+    if (prevTransactions) {
+      this.setState({
+        history: prevTransactions.history,
+        balance: prevTransactions.balance,
+        deposit: prevTransactions.deposit,
+        withdraw: prevTransactions.withdraw
+      });
     }
-    componentDidUpdate(prevProps, prevState) {
-      if (prevState.history !== this.state.history) {
-        LsBankHistory.setBankHistory(this.state);
-      }
+  }
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.history !== this.state.history) {
+      LsBankHistory.setBankHistory(this.state);
     }
+  }
   createNewOperation = (typeOperation, valueInput) => {
     const dateOperation = new Date().toLocaleString();
     return {
@@ -48,9 +48,9 @@ class Dashboard extends React.Component {
     };
   };
 
-  handleCkickDeposit = valueInput => {
+  handleCkickDeposit = (valueInput, name) => {
     if (valueInput > 0) {
-      const operation = this.createNewOperation("Deposit", valueInput);
+      const operation = this.createNewOperation(name, valueInput);
       this.setState(prevState => {
         return {
           history: [operation, ...prevState.history],
@@ -62,18 +62,17 @@ class Dashboard extends React.Component {
     }
   };
 
-  handleCkickWithdraw = valueInput => {
+  handleCkickWithdraw = (valueInput, name) => {
     if (valueInput > 0) {
-      const operation = this.createNewOperation("Withdraw", valueInput);
+      const operation = this.createNewOperation(name, valueInput);
       this.setState(prevState => {
         if (this.state.balance >= valueInput) {
           return {
             balance: (prevState.balance -= Number(operation.amount)),
             history: [operation, ...prevState.history]
           };
-        } else {
-          this.noMoney();
         }
+        return this.noMoney();
       });
     } else {
       this.unCorrectInput();
@@ -89,7 +88,7 @@ class Dashboard extends React.Component {
           withdraw={this.handleCkickWithdraw}
         />
         <ToastContainer />
-        <Balance balance={balance} history={history} />
+        <Balance balance={balance} history={history}/>
         <TransactionHistory history={history} />
       </div>
     );
