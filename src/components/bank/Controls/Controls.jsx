@@ -8,11 +8,11 @@ class Controls extends React.Component {
   handleInput = e => {
     this.setState({ value: +e.target.value });
   };
-  hadleDeposit = ({ target: { name } }) => {
+  hadleTransaction = ({ target: { name } }) => {
     this.props[name](this.state.value, name);
-    this.resetForm()
+    this.resetInput()
   };
-  resetForm = () => {
+  resetInput = () => {
     this.setState({ value: "" });
   };
   render() {
@@ -30,7 +30,7 @@ class Controls extends React.Component {
             type="submit"
             className={style.button}
             name="deposit"
-            onClick={this.hadleDeposit}
+            onClick={this.hadleTransaction}
           >
             Deposit
           </button>
@@ -38,7 +38,7 @@ class Controls extends React.Component {
             type="submit"
             className={style.button}
             name="withdraw"
-            onClick={this.hadleDeposit}
+            onClick={this.hadleTransaction}
           >
             Withdraw
           </button>
@@ -50,8 +50,6 @@ class Controls extends React.Component {
 export default Controls;
 
 Controls.propTypes = {
-  onInputChange: propTypes.func,
-  deposit: propTypes.func,
-  withdraw: propTypes.func,
-  resetForm: propTypes.string
+  hadleDeposit: propTypes.func,
+  resetForm: propTypes.func
 };

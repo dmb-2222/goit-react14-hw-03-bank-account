@@ -28,8 +28,6 @@ class Dashboard extends React.Component {
       this.setState({
         history: prevTransactions.history,
         balance: prevTransactions.balance,
-        deposit: prevTransactions.deposit,
-        withdraw: prevTransactions.withdraw
       });
     }
   }
