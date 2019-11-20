@@ -6,7 +6,7 @@ import shortid from "short-id";
 import style from "./Dashboard.module.css";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import LsBankHistory from "../services/Ls/Ls";
+import LsBankHistory from "../services/ls/ls";
 
 const prevTransactions = LsBankHistory.getBankHistory();
 
