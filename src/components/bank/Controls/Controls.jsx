@@ -9,7 +9,9 @@ class Controls extends React.Component {
     this.setState({ value: +e.target.value });
   };
   hadleTransaction = ({ target: { name } }) => {
-    this.props[name](this.state.value, name);
+    const {value} = this.state
+    const typeTransaction =name
+    this.props[typeTransaction](value, typeTransaction);
     this.resetInput()
   };
   resetInput = () => {
