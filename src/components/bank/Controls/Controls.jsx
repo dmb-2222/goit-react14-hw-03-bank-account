@@ -12,9 +12,6 @@ class Controls extends React.Component {
     const {value} = this.state
     const typeTransaction =name
     this.props[typeTransaction](value, typeTransaction);
-    this.resetInput()
-  };
-  resetInput = () => {
     this.setState({ value: "" });
   };
   render() {
