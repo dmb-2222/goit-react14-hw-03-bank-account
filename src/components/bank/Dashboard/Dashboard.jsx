@@ -4,7 +4,7 @@ import Balance from "../Balance/Balance";
 import TransactionHistory from "../TransactionHistory/TransactionHistory";
 import shortid from "short-id";
 import style from "./Dashboard.module.css";
-import { ToastContainer, toast } from "react-toastify";
+import * as toastInfo from "../../../helpers/toastInfo";
 import "react-toastify/dist/ReactToastify.css";
 import LsBankHistory from "../services/ls/ls";
 
@@ -16,18 +16,11 @@ class Dashboard extends React.Component {
     balance: 0
   };
 
-  noMoney = () =>
-    toast("На счету недостаточно средств для проведения операции!", {
-      autoClose: 5000
-    });
-  unCorrectInput = () =>
-    toast("Введите сумму для проведения операции!", { autoClose: 5000 });
-
   componentDidMount() {
     if (prevTransactions) {
       this.setState({
         history: prevTransactions.history,
-        balance: prevTransactions.balance,
+        balance: prevTransactions.balance
       });
     }
   }
@@ -37,59 +30,78 @@ class Dashboard extends React.Component {
     }
   }
   createNewOperation = (typeOperation, valueInput) => {
-    const dateOperation = new Date().toLocaleString();
+    // const dateOperation = new Date().toLocaleString();
     return {
       id: shortid.generate(),
       type: typeOperation,
       amount: valueInput,
-      date: dateOperation
+      date: new Date().toLocaleString()
     };
   };
-
-  handleCkickDeposit = (valueInput, name) => {
+  handleClickTransaction = (valueInput, name) => {
     if (valueInput > 0) {
       const operation = this.createNewOperation(name, valueInput);
       this.setState(prevState => {
-        return {
-          history: [operation, ...prevState.history],
-          balance: (prevState.balance += Number(operation.amount))
-        };
-      });
-    } else {
-      this.unCorrectInput();
-    }
-  };
-
-  handleCkickWithdraw = (valueInput, name) => {
-    if (valueInput > 0) {
-      const operation = this.createNewOperation(name, valueInput);
-      this.setState(prevState => {
-        if (this.state.balance >= valueInput) {
+        if (name === "deposit") {
           return {
-            balance: (prevState.balance -= Number(operation.amount)),
-            history: [operation, ...prevState.history]
+            history: [operation, ...prevState.history],
+            balance: (prevState.balance += Number(operation.amount))
           };
         }
-        return this.noMoney();
+        if (this.state.balance >= valueInput) {
+          return {
+            history: [operation, ...prevState.history],
+            balance: (prevState.balance -= Number(operation.amount))
+          };
+        }
+        toastInfo.noMoney();
       });
-    } else {
-      this.unCorrectInput();
+      return;
     }
+    toastInfo.unCorrectInput();
   };
-
   render() {
     const { history, balance } = this.state;
     return (
       <div className={style.dashboard}>
         <Controls
-          deposit={this.handleCkickDeposit}
-          withdraw={this.handleCkickWithdraw}
+          handleClickTransaction={this.handleClickTransaction}
+          // withdraw={this.handleCkickWithdraw}
         />
-        <ToastContainer />
-        <Balance balance={balance} history={history}/>
+        <Balance balance={balance} history={history} />
         <TransactionHistory history={history} />
       </div>
     );
   }
 }
 export default Dashboard;
+
+// handleCkickWithdraw = (valueInput, name) => {
+//   if (valueInput > 0) {
+//     const operation = this.createNewOperation(name, valueInput);
+//     this.setState(prevState => {
+//       if (this.state.balance >= valueInput) {
+//         return {
+//           history: [operation, ...prevState.history],
+//           balance: (prevState.balance -= Number(operation.amount))
+//         };
+//       }
+//       this.noMoney();
+//     });
+//   } else {
+//     this.unCorrectInput();
+//   }
+// };
+// handleCkickDeposit = (valueInput, name) => {
+//   if (valueInput > 0) {
+//     const operation = this.createNewOperation(name, valueInput);
+//     this.setState(prevState => {
+//       return {
+//         history: [operation, ...prevState.history],
+//         balance: (prevState.balance += Number(operation.amount))
+//       };
+//     });
+//   } else {
+//     this.unCorrectInput();
+//   }
+// };

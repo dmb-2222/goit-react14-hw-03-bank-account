@@ -9,9 +9,10 @@ class Controls extends React.Component {
     this.setState({ value: +e.target.value });
   };
   hadleTransaction = ({ target: { name } }) => {
-    const {value} = this.state
-    const typeTransaction =name
-    this.props[typeTransaction](value, typeTransaction);
+    const { value } = this.state;
+    const typeTransaction = name;
+    // this.props[typeTransaction](value, typeTransaction);
+    this.props.handleClickTransaction(value, typeTransaction)
     this.setState({ value: "" });
   };
   render() {
